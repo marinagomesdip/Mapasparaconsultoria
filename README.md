@@ -27,7 +27,7 @@ O minicurso consiste em uma introdução teórico-prática para elaboração dos
 
 ## Tutoriais
 
-[Tutorial Instalação dos programas requeridos](https://drive.google.com/file/d/1eor5LsZhal5-l2ZYjXWPTXCNQyFm3S1n/view?usp=drive_link)
+[Tutorial Instalação dos programas requeridos]([https://drive.google.com/file/d/1eor5LsZhal5-l2ZYjXWPTXCNQyFm3S1n/view?usp=drive_link](https://drive.google.com/file/d/1XrAurFOdwqCMSrnweWtVNfoyWP0DRRWm/view?usp=sharing))
 
 
 ## Scripts
