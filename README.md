@@ -1,4 +1,4 @@
-# Mapasparaconsultoria
+# Mapas para consultoria
 ## Informações sobre o minicurso
 
 **Ministrante**
