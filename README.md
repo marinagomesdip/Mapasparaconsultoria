@@ -23,11 +23,7 @@ O minicurso consiste em uma introdução teórico-prática para elaboração dos
 
 **Requisitos básicos**  
 - Será necessárioa utilização de notebook ou desktop com mouse
-- É solicitada a instalação prévia dos seguintes programas (O tutorial de instalação se encontra logo abaixo)
-  QGis
-  R
-  Rstudio
-
+- É solicitada a instalação prévia dos seguintes programas (O tutorial de instalação se encontra logo abaixo): QGis, R, Rstudio
 
 ## Tutoriais
 
