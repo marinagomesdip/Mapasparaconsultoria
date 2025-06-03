@@ -181,4 +181,122 @@ ggsave("Mapa_Itatiaia.png",     # nome do arquivo a ser salvo
        height = 6,              # altura em pixels da imagem
        dpi = 300)               # qualidade da imagem
 
-#MAPA 2 - 
+#MAPA 2 - Mapa de caracterização de área específica de um projeto a partir de kmz enviado pelo cliente
+
+#1. DADOS NECESSÁRIOS --------------------------------------------------------------
+
+#A. SHP DO MUNICÍPIO DO RIO DE JANEIRO (onde a área está inserida)
+#podemos usar o seguinte código para encontrar o código dos municipios:
+geobr::lookup_muni("Rio de Janeiro")
+
+#agora vamos baixar a geometria do Rio de Janeiro
+rj <- read_municipality(code_muni = 3304557, year = 2020)
+
+#vamos visualizar se conseguimos baixar a geometria corretamente:
+plot(rj$geom) 
+
+#B. KMZ do projeto 
+#vamos carregar um pacote do R básico (n precisa instalar)
+library(utils)
+
+# Passo 1: Extrair o KML do KMZ (sem salvar)
+#caminho para o arquivo
+kmz_file <- "C:/Users/Dell/OneDrive/Área de Trabalho/MINICURSO/Exemplos/Mapa2/empreendimento.kmz"
+#criar um diretório vazio para armazenar temporariamente o arquivo
+temp_dir <- tempdir()
+#retirar o kml do kmz para a pasta temporária 
+unzip(kmz_file, exdir = temp_dir)
+
+# Passo 2: Ler o KML como objeto `sf` 
+#lista de arquivos para extrair
+kml_file <- list.files(temp_dir, pattern = "\\.kml$", full.names = TRUE)[1]
+#ler o arquivo com st_read
+empree <- st_read(kml_file)
+
+#vamos visualizar o mapa
+plot(empree)
+
+#C. KMZ área de supressão
+# Passo 1: Extrair o KML do KMZ (sem salvar)
+#caminho para o arquivo
+kmz_file <- "C:/Users/Dell/OneDrive/Área de Trabalho/MINICURSO/Exemplos/Mapa2/supressao.kmz"
+#criar um diretório vazio para armazenar temporariamente o arquivo
+temp_dir <- tempdir()
+#retirar o kml do kmz para a pasta temporária 
+unzip(kmz_file, exdir = temp_dir)
+
+# Passo 2: Ler o KML como objeto `sf` 
+#lista de arquivos para extrair
+kml_file <- list.files(temp_dir, pattern = "\\.kml$", full.names = TRUE)[1]
+#ler o arquivo com st_read
+supre <- st_read(kml_file)
+
+#vamos visualizar o mapa
+plot(supre)
+
+#D. KMZ da área de replantio
+# Passo 1: Extrair o KML do KMZ (sem salvar)
+#caminho para o arquivo
+kmz_file <- "C:/Users/Dell/OneDrive/Área de Trabalho/MINICURSO/Exemplos/Mapa2/replantio.kmz"
+#criar um diretório vazio para armazenar temporariamente o arquivo
+temp_dir <- tempdir()
+#retirar o kml do kmz para a pasta temporária 
+unzip(kmz_file, exdir = temp_dir)
+
+# Passo 2: Ler o KML como objeto `sf` 
+#lista de arquivos para extrair
+kml_file <- list.files(temp_dir, pattern = "\\.kml$", full.names = TRUE)[1]
+#ler o arquivo com st_read
+replan <- st_read(kml_file)
+
+#vamos visualizar o mapa
+plot(replan)
+
+# 2.  AJUSTAR CRS  --------------------------------------------------------------
+
+#Para modificar um crs podemos usar:
+rj <- st_transform(rj, crs = 5880)
+empree <- st_transform(empree, crs = 5880)
+supre <- st_transform(supre, crs = 5880)
+replan <- st_transform(replan, crs = 5880)
+
+# 3. PLOTAR MAPAS COM GGPLOT2 ----------------------------------------------------
+#3.1 - fazendo o primeiro plot (sempre considere o shp mais extenso)
+mapa2 <- ggplot() +
+  geom_sf(data = rj,           # Geometria de Itatiaia
+          color='black',        # Cor das linhas/bordas da camada.
+          fill = 'khaki',       # Cor do preenchimento
+          alpha = 0.8)          # Transparência do mapa
+
+#visualizando o primeiro plot
+mapa2
+
+#3.2 - Vamos adicionar ao plot que já fizemos, os dados do empreendimento
+
+mapa2 <- mapa2 +                 # Objeto com o mapa de Itatiaia
+  geom_sf(data = empree,         # Dados extraídos do kmz do empreendimento
+          color = 'orange1',     # Cor da llinha
+          fill = NA,             # Manter o shp sem preenchimento
+          linewidth = 1)         # extensão da linha
+
+#visualizando o novo plot
+mapa2
+
+#Agora perceba que o mapa ficou muito grande pro tamanho do empreendimento,
+#vamos modificar esse código para facilitar
+
+mapa2 <- mapa2 +                 # Objeto com o mapa de Itatiaia
+  geom_sf(data = empree,         # Dados extraídos do kmz do empreendimento
+          color = 'orange1',     # Cor da llinha
+          fill = NA,             # Manter o shp sem preenchimento
+          linewidth = 1) +      # extensão da linha
+  coord_sf(
+    xlim = c(st_bbox(empree)["xmin"], st_bbox(empree)["xmax"]),
+    ylim = c(st_bbox(empree)["ymin"], st_bbox(empree)["ymax"])) 
+  
+#visualizando o novo plot
+mapa2
+
+
+#MAPA 3 - 
+
