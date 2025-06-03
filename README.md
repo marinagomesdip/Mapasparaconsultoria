@@ -11,7 +11,7 @@ Dr. Marina Gomes
 
 **Datas**
 Primeira edição (DWL)
-XXX às Xh
+03/06/25 às 9:30h
 
 **Resumo**
 
@@ -32,8 +32,8 @@ O minicurso consiste em uma introdução teórico-prática para elaboração dos
 
 ## Scripts
 
-[Aula 1 - Gráficos](https://github.com/marinagomesdip/minicurso-analisebiodiversidade-r/blob/main/Scripts/Aula%20%202%20-%20Gr%C3%A1ficos.R) <br>
+[Script - Base R](https://github.com/marinagomesdip/Mapasparaconsultoria/blob/main/Scripts/Script_Base_R.R) <br>
 
-[Aula 2 - Dados geoespaciais](https://github.com/marinagomesdip/minicurso-analisebiodiversidade-r/blob/main/Scripts/Aula%203%20-%20Dados%20Geoespaciais.R) <br>
+[Script - Mapas](https://github.com/marinagomesdip/Mapasparaconsultoria/blob/main/Scripts/Script_Mapas_Base.R) <br>
 
 
