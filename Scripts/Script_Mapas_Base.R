@@ -282,21 +282,81 @@ mapa2 <- mapa2 +                 # Objeto com o mapa de Itatiaia
 #visualizando o novo plot
 mapa2
 
-#Agora perceba que o mapa ficou muito grande pro tamanho do empreendimento,
-#vamos modificar esse código para facilitar
+#3.3 - Acrescentando a primeira área demarcada da área de estudo
+mapa2 <- mapa2 +
+  geom_sf(data = supre,           # Geometria da área de supressão
+          color='darkred',        # Cor das linhas/bordas da camada.
+          fill = 'darkred',       # Cor do preenchimento
+          alpha = 0.8)            # Transparência do mapa
 
-mapa2 <- mapa2 +                 # Objeto com o mapa de Itatiaia
-  geom_sf(data = empree,         # Dados extraídos do kmz do empreendimento
-          color = 'orange1',     # Cor da llinha
-          fill = NA,             # Manter o shp sem preenchimento
-          linewidth = 1) +      # extensão da linha
-  coord_sf(
-    xlim = c(st_bbox(empree)["xmin"], st_bbox(empree)["xmax"]),
-    ylim = c(st_bbox(empree)["ymin"], st_bbox(empree)["ymax"])) 
-  
-#visualizando o novo plot
+
+#3.4 - Acrescentando a segunda área demarcada da área de estudo
+mapa2 <- mapa2 +
+  geom_sf(data = replan,            # Geometria da área de replantio
+          color='darkgreen',        # Cor das linhas/bordas da camada.
+          fill = 'darkgreen',       # Cor do preenchimento
+          alpha = 0.8)              # Transparência do mapa
+
+#Contudo, o mapa do Rio de Janeiro ficou muito grande em comparação com a área
+#de estudo. Para melhorar isso, vamos modificar o último código:
+
+mapa2 <- mapa2 +
+  geom_sf(data = replan,             
+          color='darkgreen',      
+          fill = 'darkgreen',       
+          alpha = 0.8) +
+  coord_sf(                                                    # criando um limite das coordenadas
+  xlim = c(st_bbox(empree)["xmin"], st_bbox(empree)["xmax"]),  # usando o limite do empreendimento
+  ylim = c(st_bbox(empree)["ymin"], st_bbox(empree)["ymax"]))  # usando o limite do empreendimento
+
+#visualizando o último plot
 mapa2
 
+#Adicionando os rótulos nos polígonos
+mapa2 <- mapa2 +      # Seleciona o mapa anterior
+  geom_sf_text(       # Função para incluir textos nos shp
+  data = replan,      # Objeto 
+  aes(label = Name),  # Coluna com nomes dos municípios
+  color = "white",    # Cor da letra
+  size = 5,            # Tamanho da letra
+  fun.geometry = st_centroid)   #Posição dentro do polígono
 
-#MAPA 3 - 
+#vamos ver como ficou:
+mapa2
 
+#Adicionando os rótulos nos polígonos
+mapa2 <- mapa2 +      # Seleciona o mapa anterior
+  geom_sf_text(       # Função para incluir textos nos shp
+    data = supre,      # Objeto 
+    aes(label = Name),  # Coluna com nomes dos municípios
+    color = "white",    # Cor da letra
+    size = 5,            # Tamanho da letra
+    fun.geometry = st_centroid)   #Posição dentro do polígono
+
+#vamos ver como ficou:
+mapa2
+
+#Agora vamos finalizar tornando esse mapa mais "visual"
+#Acrescentando elementos obrigatórios
+mapa2 <- mapa2 +
+  ggspatial::annotation_scale(
+    location = 'br',                           # Localização da escala gráfica.
+    bar_cols = c('black','white'),             # Cores das barras.
+    height = unit(0.2, "cm"))+                 # Altura da escala gráfica.
+  ggspatial::annotation_north_arrow(
+    location = 'tr',                           # Localização da seta norte. 
+    pad_x = unit(0.30, 'cm'),                  # Distância da borda do eixo x.
+    pad_y = unit(0.30, 'cm'),                  # Distância da borda do eixo y.
+    height = unit(1.0, 'cm'),                  # Altura  da seta norte.
+    width = unit(1.0, 'cm'),                   # Largura da seta norte.
+    style = north_arrow_fancy_orienteering(    # Tipo de seta.
+      fill = c('grey40', 'white'),             # Cores de preenchimento da seta.
+      line_col = 'grey20'))                    # Cor  das linhas da seta.
+
+#Vamos também remover as anotações de X e Y nos eixos
+mapa2 <- mapa2 +
+  labs(x = NULL, y = NULL) +
+  theme(axis.title = element_blank())
+
+#Visualizando o mapa final
+mapa2
